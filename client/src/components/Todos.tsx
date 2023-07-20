@@ -91,11 +91,9 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   onTodoDeleteAttachment = async (todoId: string, pos: number) => {
     try {
-      await deleteTodoAttachment(this.props.auth.getIdToken(), todoId)
+      await deleteTodo(this.props.auth.getIdToken(), todoId)
       this.setState({
-        todos: update(this.state.todos, {
-          [pos]: { attachmentUrl: { $set: "" } }
-        })
+        todos: this.state.todos.filter(todo => todo.todoId !== todoId)
       })
     } catch {
       alert('Todo attachment deletion failed')
